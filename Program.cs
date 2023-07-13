@@ -75,7 +75,7 @@ bool AddMoney()
     {
         do
         {
-            Console.WriteLine("Писать нужно в диапозоне от 1 до 2!");
+            Console.WriteLine("Писать нужно в диапазоне от 1 до 2!");
             Console.ReadKey();
         } while (userInput <= 2 && userInput >= 1);
     }
@@ -155,43 +155,35 @@ bool PayByCash()
     int type;
 
     Console.Write("Введите количество десяток: ");
-    if (!int.TryParse(Console.ReadLine(), out ten))
+    if (!int.TryParse(Console.ReadLine(), out ten) || ten < 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Введите количество десяток: ");
-        } while (!int.TryParse(Console.ReadLine(), out ten));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        PayByCash();
     }
 
     Console.Write("Введите количество пятёрок: ");
-    if (!int.TryParse(Console.ReadLine(), out five))
+    if (!int.TryParse(Console.ReadLine(), out five) || five < 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Введите количество пятёрок:");
-        } while (!int.TryParse(Console.ReadLine(), out five));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        PayByCash();
     }
 
     Console.Write("Введите количество двоек: ");
-    if (!int.TryParse(Console.ReadLine(), out two))
+    if (!int.TryParse(Console.ReadLine(), out two) || two < 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Введите количество двоек: ");
-        } while (!int.TryParse(Console.ReadLine(), out two));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        PayByCash();
     }
 
     Console.Write("Введите количество единиц: ");
-    if (!int.TryParse(Console.ReadLine(), out one))
+    if (!int.TryParse(Console.ReadLine(), out one) || one < 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Введите количество единиц: ");
-        } while (!int.TryParse(Console.ReadLine(), out one));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        PayByCash();
     }
 
     cashMoney += (ten * 10) + (five * 5) + (two * 2) + one;
@@ -210,13 +202,11 @@ void PayByCreditCard()
     Console.Clear();
     int sum;
     Console.Write("Введите сумму, которую хотите внести: ");
-    if (!int.TryParse(Console.ReadLine(), out sum))
+    if (!int.TryParse(Console.ReadLine(), out sum) || sum < 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Введите сумму, которую хотите внести: ");
-        } while (!int.TryParse(Console.ReadLine(), out sum));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        PayByCreditCard();
     }
     cardMoney += sum;
     totalMoney += cardMoney;
@@ -234,6 +224,7 @@ void ShowProducts()
     Console.ReadKey();
     MainMenu();
 }
+
 void ShowBalance()
 {
     Console.WriteLine($"Ваш баланс {totalMoney} руб.");
@@ -256,32 +247,30 @@ void BuyProducts()
 
     int product;
 
-    if (!int.TryParse(Console.ReadLine(), out product) || list[product - 1].Count == 0)
+    if (!int.TryParse(Console.ReadLine(), out product) || product < 0|| product > list.Count || list[product - 1].Count == 0)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Напишите номер товара: ");
-        } while (!int.TryParse(Console.ReadLine(), out product));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        BuyProducts();
     }
 
-    else if (product > list.Count || product < 1)
+    else if (totalMoney < list[product].Price)
     {
-        do
-        {
-            Console.WriteLine("Писать нужно в диапозоне от 1 до 10!");
-        } while (product <= list.Count && product > 0);
+        Console.WriteLine("На балансе недостаточно средств!");
+        ShowBalance();
+        Console.ReadKey();
+        MainMenu();
     }
 
     Console.Write("Напишите количество товара: ");
+
     int count;
+
     if (!int.TryParse(Console.ReadLine(), out count) || count < 0 || count > list[product - 1].Count)
     {
-        do
-        {
-            Console.WriteLine("Некорректный ввод!");
-            Console.Write("Напишите количество: ");
-        } while (!int.TryParse(Console.ReadLine(), out count));
+        Console.WriteLine("Некорректный ввод!");
+        Console.ReadKey();
+        BuyProducts();
 
     }
 
@@ -294,4 +283,6 @@ void BuyProducts()
     }
 
 }
+
+
 
